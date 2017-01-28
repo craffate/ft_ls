@@ -6,7 +6,7 @@
 /*   By: craffate <craffate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/24 13:02:53 by craffate          #+#    #+#             */
-/*   Updated: 2017/01/28 12:36:12 by craffate         ###   ########.fr       */
+/*   Updated: 2017/01/28 12:44:52 by craffate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,5 +55,7 @@ int		main(int ac, char **av)
 	}
 	while (av[j])
 		ft_ls(create_struct(av[j++], "."), i);
+	while (1)
+		;
 	return (0);
 }

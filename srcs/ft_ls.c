@@ -6,7 +6,7 @@
 /*   By: craffate <craffate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/24 15:09:27 by craffate          #+#    #+#             */
-/*   Updated: 2017/01/28 12:27:46 by craffate         ###   ########.fr       */
+/*   Updated: 2017/01/28 14:08:34 by craffate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,24 @@ t_file	*create_struct(char *name, char *path)
 
 	if (!(arg = (t_file *)malloc(sizeof(t_file))))
 		return (0);
-	arg->name = name;
-	arg->path = path;
+	arg->name = ft_strdup(name);
+	arg->path = ft_strdup(path);
 	lstat(path, &arg->stat);
 	return (arg);
+}
+
+static void		freetab(t_file **tab)
+{
+	t_file **beg;
+
+	beg = tab;
+	while (*tab)
+	{
+		free((*tab)->name);
+		free((*tab)->path);
+		free(*tab++);
+	}
+	free(beg);
 }
 
 static t_file	**parse(DIR *d, char *path)
@@ -68,15 +82,13 @@ static t_file	**parse(DIR *d, char *path)
 	t_file			**files;
 	t_file			**dirs;
 	t_file			*file;
-	char			*s;
 
 	files = 0;
 	dirs = 0;
 	i = 0;
 	while ((s_dir = readdir(d)))
 	{
-		s = ft_strdup(s_dir->d_name);
-		file = create_struct(s, path);
+		file = create_struct(s_dir->d_name, path);
 		if (s_dir->d_type == DT_REG)
 			files = insert(files, file);
 		else if (s_dir->d_type == DT_DIR && *s_dir->d_name != '.')
@@ -84,6 +96,7 @@ static t_file	**parse(DIR *d, char *path)
 	}
 	while (files[i])
 		ft_printf("%s\n", (files[i++])->name);
+	freetab(files);
 	return (dirs);
 }
 
@@ -96,7 +109,10 @@ int			ft_ls(t_file *dir, int i)
 	path = join_path(dir->path, dir->name);
 	d = opendir(path);
 	if ((dirs = parse(d, path)) && (i & LS_CR))
+	{
 		while (*dirs)
 			ft_ls(*dirs++, i);
+	}
+	closedir(d);
 	return (0);
 }
