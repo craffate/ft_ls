@@ -6,7 +6,7 @@
 /*   By: craffate <craffate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/24 15:09:27 by craffate          #+#    #+#             */
-/*   Updated: 2017/01/28 14:08:34 by craffate         ###   ########.fr       */
+/*   Updated: 2017/01/31 23:26:45 by craffate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,6 @@ static char		*join_path(char *s1, char *s2)
 	unsigned int	i;
 	char			*s3;
 
-	if (!s1 || !s2)
-		return (NULL);
 	i = 0;
 	if (!(s3 = (char *)malloc(sizeof(char) *
 		(ft_strlen(s1) + ft_strlen(s2) + 2))))
@@ -63,16 +61,16 @@ t_file	*create_struct(char *name, char *path)
 
 static void		freetab(t_file **tab)
 {
-	t_file **beg;
+	t_file **start;
 
-	beg = tab;
+	start = tab;
 	while (*tab)
 	{
 		free((*tab)->name);
 		free((*tab)->path);
 		free(*tab++);
 	}
-	free(beg);
+	free(start);
 }
 
 static t_file	**parse(DIR *d, char *path)
@@ -95,7 +93,8 @@ static t_file	**parse(DIR *d, char *path)
 			dirs = insert(dirs, file);
 	}
 	while (files[i])
-		ft_printf("%s\n", (files[i++])->name);
+		ft_printf("%s\t", (files[i++])->name);
+	i = 0;
 	freetab(files);
 	return (dirs);
 }
@@ -105,13 +104,25 @@ int			ft_ls(t_file *dir, int i)
 	t_file			**dirs;
 	DIR				*d;
 	char			*path;
+	unsigned int	j;
+	unsigned int	k;
 
+	j = 0;
+	k = 0;
 	path = join_path(dir->path, dir->name);
 	d = opendir(path);
+	i & LS_CR ? ft_printf("\n{green}%s:\n{eoc}", (path + 2)) : 0;
 	if ((dirs = parse(d, path)) && (i & LS_CR))
 	{
-		while (*dirs)
-			ft_ls(*dirs++, i);
+		while (dirs[j])
+			ft_ls(dirs[j++], i);
+		while (dirs[k])
+			ft_printf("%s\t", (dirs[k++])->name);
+	}
+	else if (!(i & LS_CR))
+	{
+		while (dirs[k])
+			ft_printf("%s\t", (dirs[k++])->name);
 	}
 	closedir(d);
 	return (0);
