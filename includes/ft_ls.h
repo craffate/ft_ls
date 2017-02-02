@@ -6,7 +6,7 @@
 /*   By: craffate <craffate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/24 12:56:26 by craffate          #+#    #+#             */
-/*   Updated: 2017/02/02 17:58:08 by craffate         ###   ########.fr       */
+/*   Updated: 2017/02/02 18:35:09 by craffate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <sys/stat.h>
 # include <sys/types.h>
 # include <pwd.h>
+# include <grp.h>
 # include <uuid/uuid.h>
 # include <dirent.h>
 

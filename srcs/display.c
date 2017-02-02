@@ -6,7 +6,7 @@
 /*   By: craffate <craffate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/02 16:14:58 by craffate          #+#    #+#             */
-/*   Updated: 2017/02/02 17:57:22 by craffate         ###   ########.fr       */
+/*   Updated: 2017/02/02 18:34:33 by craffate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,13 +48,13 @@ static long long int total(t_file **dir)
 static void	display_l(t_file *dir, int i)
 {
 	S_ISSOCK((*dir).stat.st_mode) ?
-	ft_printf("%s  {white}%s{eoc}\n", rights(dir), (*dir).name) : 0;
+	ft_printf("%s  %s %s {white}%s{eoc}\n", rights(dir), getpwuid((*dir).stat.st_uid)->pw_name, getgrgid((*dir).stat.st_gid)->gr_name, (*dir).name) : 0;
 	S_ISLNK((*dir).stat.st_mode) ?
-	ft_printf("%s  {yellow}%s{eoc}\n", rights(dir), (*dir).name) : 0;
+	ft_printf("%s  %s %s {yellow}%s{eoc}\n", rights(dir), getpwuid((*dir).stat.st_uid)->pw_name, getgrgid((*dir).stat.st_gid)->gr_name, (*dir).name) : 0;
 	S_ISDIR((*dir).stat.st_mode) ?
-	ft_printf("%s  {cyan}%s{eoc}\n", rights(dir), (*dir).name) : 0;
+	ft_printf("%s  %s %s {cyan}%s{eoc}\n", rights(dir), getpwuid((*dir).stat.st_uid)->pw_name, getgrgid((*dir).stat.st_gid)->gr_name, (*dir).name) : 0;
 	S_ISREG((*dir).stat.st_mode) ?
-	ft_printf("%s  %s\n", rights(dir), (*dir).name) : 0;
+	ft_printf("%s  %s %s %s\n", rights(dir), getpwuid((*dir).stat.st_uid)->pw_name, getgrgid((*dir).stat.st_gid)->gr_name, (*dir).name) : 0;
 }
 
 void		display(t_file **dir, int i, const unsigned short status)
