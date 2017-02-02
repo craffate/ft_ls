@@ -6,7 +6,7 @@
 /*   By: craffate <craffate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/24 12:56:26 by craffate          #+#    #+#             */
-/*   Updated: 2017/02/02 16:40:20 by craffate         ###   ########.fr       */
+/*   Updated: 2017/02/02 17:58:08 by craffate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int		ft_ls(t_file *dir, int i);
 int		ft_ls_parse(const char *s);
 t_file	**insert(t_file **args, t_file *file);
 t_file	*create_struct(char *name, char *path);
-void	display(t_file *dir, int i);
+void	display(t_file **dir, int i, const unsigned short status);
 void	freetab(t_file **tab);
 char	*join_path(char *s1, char *s2);
 

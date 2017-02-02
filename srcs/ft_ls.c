@@ -6,7 +6,7 @@
 /*   By: craffate <craffate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/24 15:09:27 by craffate          #+#    #+#             */
-/*   Updated: 2017/02/02 16:54:25 by craffate         ###   ########.fr       */
+/*   Updated: 2017/02/02 17:57:55 by craffate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,7 @@ static t_file	**parse(DIR *d, char *path, int i)
 		else if (s_dir->d_type == DT_DIR && *s_dir->d_name != '.')
 			dirs = insert(dirs, file);
 	}
-	while (files[j])
-		display(files[j++], i);
+	display(files, i, 1);
 	freetab(files);
 	return (dirs);
 }
@@ -52,16 +51,12 @@ int				ft_ls(t_file *dir, int i)
 	i & LS_CR ? ft_printf("\n\n{green}%s:\n{eoc}", (path)) : 0;
 	if ((dirs = parse(d, path, i)) && (i & LS_CR))
 	{
-		while (dirs[k])
-			display(dirs[k++], i);
+		display(dirs, i, 0);
 		while (dirs[j])
 			ft_ls(dirs[j++], i);
 	}
 	else if (!(i & LS_CR))
-	{
-		while (dirs[k])
-			display(dirs[k++], i);
-	}
+		display(dirs, i, 0);
 	closedir(d);
 	return (0);
 }
