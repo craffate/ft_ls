@@ -6,7 +6,7 @@
 /*   By: craffate <craffate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/24 12:56:26 by craffate          #+#    #+#             */
-/*   Updated: 2017/02/02 18:35:09 by craffate         ###   ########.fr       */
+/*   Updated: 2017/02/02 22:24:45 by craffate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,14 @@ typedef struct		s_file
 	t_stat			stat;
 }					t_file;
 
-int		ft_ls(t_file *dir, int i);
-int		ft_ls_parse(const char *s);
-t_file	**insert(t_file **args, t_file *file);
-t_file	*create_struct(char *name, char *path);
-void	display(t_file **dir, int i, const unsigned short status);
-void	freetab(t_file **tab);
-char	*join_path(char *s1, char *s2);
+int				ft_ls(t_file *dir, int i);
+int				ft_ls_parse(const char *s);
+t_file			**insert(t_file **args, t_file *file);
+t_file			*create_struct(char *name, char *path);
+void			display(t_file **dir, int i, const unsigned short status,
+				size_t s);
+void			freetab(t_file **tab);
+char			*join_path(char *s1, char *s2);
+size_t			maxsizechars(t_file **args);
 
 #endif

@@ -6,11 +6,29 @@
 /*   By: craffate <craffate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/02 16:38:48 by craffate          #+#    #+#             */
-/*   Updated: 2017/02/02 16:54:25 by craffate         ###   ########.fr       */
+/*   Updated: 2017/02/02 23:02:56 by craffate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
+
+size_t		maxsizechars(t_file **args)
+{
+	int		i;
+	size_t	j;
+
+	i = 0;
+	j = 0;
+	while (*args)
+	{
+		i = (*args)->stat.st_size > i ? (*args)->stat.st_size : i;
+		args++;
+	}
+	while (i /= 10)
+		j++;
+	j++;
+	return (j);
+}
 
 t_file		**insert(t_file **args, t_file *file)
 {

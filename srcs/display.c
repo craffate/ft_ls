@@ -6,7 +6,7 @@
 /*   By: craffate <craffate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/02 16:14:58 by craffate          #+#    #+#             */
-/*   Updated: 2017/02/02 18:34:33 by craffate         ###   ########.fr       */
+/*   Updated: 2017/02/02 22:25:03 by craffate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,19 +45,19 @@ static long long int total(t_file **dir)
 	return (t);
 }
 
-static void	display_l(t_file *dir, int i)
+static void	display_l(t_file *dir, int i, size_t s)
 {
 	S_ISSOCK((*dir).stat.st_mode) ?
-	ft_printf("%s  %s %s {white}%s{eoc}\n", rights(dir), getpwuid((*dir).stat.st_uid)->pw_name, getgrgid((*dir).stat.st_gid)->gr_name, (*dir).name) : 0;
+	ft_printf("%s %2u %s  %s %*u {white}%s{eoc}\n", rights(dir), (*dir).stat.st_nlink, getpwuid((*dir).stat.st_uid)->pw_name, getgrgid((*dir).stat.st_gid)->gr_name, s, (*dir).stat.st_size, (*dir).name) : 0;
 	S_ISLNK((*dir).stat.st_mode) ?
-	ft_printf("%s  %s %s {yellow}%s{eoc}\n", rights(dir), getpwuid((*dir).stat.st_uid)->pw_name, getgrgid((*dir).stat.st_gid)->gr_name, (*dir).name) : 0;
+	ft_printf("%s %2u %s  %s %*u {yellow}%s{eoc}\n", rights(dir), (*dir).stat.st_nlink, getpwuid((*dir).stat.st_uid)->pw_name, getgrgid((*dir).stat.st_gid)->gr_name, s, (*dir).stat.st_size, (*dir).name) : 0;
 	S_ISDIR((*dir).stat.st_mode) ?
-	ft_printf("%s  %s %s {cyan}%s{eoc}\n", rights(dir), getpwuid((*dir).stat.st_uid)->pw_name, getgrgid((*dir).stat.st_gid)->gr_name, (*dir).name) : 0;
+	ft_printf("%s %2u %s  %s %*u {cyan}%s{eoc}\n", rights(dir), (*dir).stat.st_nlink, getpwuid((*dir).stat.st_uid)->pw_name, getgrgid((*dir).stat.st_gid)->gr_name, s, (*dir).stat.st_size, (*dir).name) : 0;
 	S_ISREG((*dir).stat.st_mode) ?
-	ft_printf("%s  %s %s %s\n", rights(dir), getpwuid((*dir).stat.st_uid)->pw_name, getgrgid((*dir).stat.st_gid)->gr_name, (*dir).name) : 0;
+	ft_printf("%s %2u %s  %s %*u %s\n", rights(dir), (*dir).stat.st_nlink, getpwuid((*dir).stat.st_uid)->pw_name, getgrgid((*dir).stat.st_gid)->gr_name, s, (*dir).stat.st_size, (*dir).name) : 0;
 }
 
-void		display(t_file **dir, int i, const unsigned short status)
+void		display(t_file **dir, int i, const unsigned short status, size_t s)
 {
 	unsigned int	j;
 
@@ -77,7 +77,7 @@ void		display(t_file **dir, int i, const unsigned short status)
 			ft_printf("%s\t", (*dir[j]).name) : 0;
 		}
 		else if (i & LS_L)
-			display_l(dir[j], i);
+			display_l(dir[j], i, s);
 		j++;
 	}
 }
