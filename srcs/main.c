@@ -6,22 +6,12 @@
 /*   By: craffate <craffate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/24 13:02:53 by craffate          #+#    #+#             */
-/*   Updated: 2017/02/02 15:00:34 by craffate         ###   ########.fr       */
+/*   Updated: 2017/02/02 16:28:03 by craffate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-void		display(t_file *dir)
-{
-	S_ISSOCK((*dir).stat.st_mode) ?
-	ft_printf("{white}%s{eoc}\t", (*dir).name) : 0;
-	S_ISLNK((*dir).stat.st_mode) ?
-	ft_printf("{yellow}%s{eoc}\t", (*dir).name) : 0;
-	S_ISDIR((*dir).stat.st_mode) ?
-	ft_printf("{cyan}%s{eoc}\t", (*dir).name) : 0;
-	S_ISREG((*dir).stat.st_mode) ? ft_printf("%s\t", (*dir).name) : 0;
-}
 
 t_file		**insert(t_file **args, t_file *file)
 {

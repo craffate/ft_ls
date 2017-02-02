@@ -1,0 +1,60 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   display.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: craffate <craffate@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/02/02 16:14:58 by craffate          #+#    #+#             */
+/*   Updated: 2017/02/02 16:31:38 by craffate         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "ft_ls.h"
+
+static char	*rights(t_file *file)
+{
+	unsigned int	i;
+	char			*s;
+
+	i = 0;
+	s = ft_strnew(10);
+	s[i++] = *(S_ISDIR((*file).stat.st_mode) ? "d" : "-");
+	s[i++] = *((*file).stat.st_mode & S_IRUSR ? "r" : "-");
+	s[i++] = *((*file).stat.st_mode & S_IWUSR ? "w" : "-");
+	s[i++] = *((*file).stat.st_mode & S_IXUSR ? "x" : "-");
+	s[i++] = *((*file).stat.st_mode & S_IRGRP ? "r" : "-");
+	s[i++] = *((*file).stat.st_mode & S_IWGRP ? "w" : "-");
+	s[i++] = *((*file).stat.st_mode & S_IXGRP ? "x" : "-");
+	s[i++] = *((*file).stat.st_mode & S_IROTH ? "r" : "-");
+	s[i++] = *((*file).stat.st_mode & S_IWOTH ? "w" : "-");
+	s[i] = *((*file).stat.st_mode & S_IXOTH ? "x" : "-");
+	return (s);
+}
+
+static void	display_l(t_file *dir, int i)
+{
+	S_ISSOCK((*dir).stat.st_mode) ?
+	ft_printf("%s  {white}%s{eoc}\n", rights(dir), (*dir).name) : 0;
+	S_ISLNK((*dir).stat.st_mode) ?
+	ft_printf("%s  {yellow}%s{eoc}\n", rights(dir), (*dir).name) : 0;
+	S_ISDIR((*dir).stat.st_mode) ?
+	ft_printf("%s  {cyan}%s{eoc}\n", rights(dir), (*dir).name) : 0;
+	S_ISREG((*dir).stat.st_mode) ? ft_printf("%s  %s\n", rights(dir), (*dir).name) : 0;
+}
+
+void		display(t_file *dir, int i)
+{
+	if (!(i & LS_L))
+	{
+		S_ISSOCK((*dir).stat.st_mode) ?
+		ft_printf("{white}%s{eoc}\t", (*dir).name) : 0;
+		S_ISLNK((*dir).stat.st_mode) ?
+		ft_printf("{yellow}%s{eoc}\t", (*dir).name) : 0;
+		S_ISDIR((*dir).stat.st_mode) ?
+		ft_printf("{cyan}%s{eoc}\t", (*dir).name) : 0;
+		S_ISREG((*dir).stat.st_mode) ? ft_printf("%s\t", (*dir).name) : 0;
+	}
+	else if (i & LS_L)
+		display_l(dir, i);
+}
