@@ -6,27 +6,27 @@
 /*   By: craffate <craffate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/24 15:09:27 by craffate          #+#    #+#             */
-/*   Updated: 2017/01/31 23:26:45 by craffate         ###   ########.fr       */
+/*   Updated: 2017/02/02 14:52:25 by craffate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
 /*
-static int	ft_ls_rights(t_stat stat)
-{
-	ft_printf(stat.st_mode & S_IFDIR ? "d" : "-");
-	ft_printf(stat.st_mode & S_IRUSR ? "r" : "-");
-	ft_printf(stat.st_mode & S_IWUSR ? "w" : "-");
-	ft_printf(stat.st_mode & S_IXUSR ? "x" : "-");
-	ft_printf((stat.st_mode & S_IRGRP) ? "r" : "-");
-	ft_printf((stat.st_mode & S_IWGRP) ? "w" : "-");
-	ft_printf((stat.st_mode & S_IXGRP) ? "x" : "-");
-	ft_printf((stat.st_mode & S_IROTH) ? "r" : "-");
-	ft_printf((stat.st_mode & S_IWOTH) ? "w" : "-");
-	ft_printf((stat.st_mode & S_IXOTH) ? "x" : "-");
-	return (0);
-}
+**static int	ft_ls_rights(t_stat stat)
+**{
+**	ft_printf(stat.st_mode & S_IFDIR ? "d" : "-");
+**	ft_printf(stat.st_mode & S_IRUSR ? "r" : "-");
+**	ft_printf(stat.st_mode & S_IWUSR ? "w" : "-");
+**	ft_printf(stat.st_mode & S_IXUSR ? "x" : "-");
+**	ft_printf((stat.st_mode & S_IRGRP) ? "r" : "-");
+**	ft_printf((stat.st_mode & S_IWGRP) ? "w" : "-");
+**	ft_printf((stat.st_mode & S_IXGRP) ? "x" : "-");
+**	ft_printf((stat.st_mode & S_IROTH) ? "r" : "-");
+**	ft_printf((stat.st_mode & S_IWOTH) ? "w" : "-");
+**	ft_printf((stat.st_mode & S_IXOTH) ? "x" : "-");
+**	return (0);
+**}
 */
 
 static char		*join_path(char *s1, char *s2)
@@ -40,14 +40,15 @@ static char		*join_path(char *s1, char *s2)
 		return (NULL);
 	while (*s1)
 		s3[i++] = *s1++;
-	s3[i++] = '/';
+	if (i)
+		s3[i++] = '/';
 	while (*s2)
 		s3[i++] = *s2++;
 	s3[i] = '\0';
 	return (s3);
 }
 
-t_file	*create_struct(char *name, char *path)
+t_file			*create_struct(char *name, char *path)
 {
 	t_file	*arg;
 
@@ -99,7 +100,7 @@ static t_file	**parse(DIR *d, char *path)
 	return (dirs);
 }
 
-int			ft_ls(t_file *dir, int i)
+int				ft_ls(t_file *dir, int i)
 {
 	t_file			**dirs;
 	DIR				*d;
@@ -111,18 +112,18 @@ int			ft_ls(t_file *dir, int i)
 	k = 0;
 	path = join_path(dir->path, dir->name);
 	d = opendir(path);
-	i & LS_CR ? ft_printf("\n{green}%s:\n{eoc}", (path + 2)) : 0;
+	i & LS_CR ? ft_printf("\n\n{green}%s:\n{eoc}", (path)) : 0;
 	if ((dirs = parse(d, path)) && (i & LS_CR))
 	{
+		while (dirs[k])
+			display(dirs[k++]);
 		while (dirs[j])
 			ft_ls(dirs[j++], i);
-		while (dirs[k])
-			ft_printf("%s\t", (dirs[k++])->name);
 	}
 	else if (!(i & LS_CR))
 	{
 		while (dirs[k])
-			ft_printf("%s\t", (dirs[k++])->name);
+			display(dirs[k++]);
 	}
 	closedir(d);
 	return (0);
