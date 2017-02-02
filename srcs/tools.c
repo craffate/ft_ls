@@ -6,11 +6,36 @@
 /*   By: craffate <craffate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/02 16:38:48 by craffate          #+#    #+#             */
-/*   Updated: 2017/02/02 16:48:33 by craffate         ###   ########.fr       */
+/*   Updated: 2017/02/02 16:54:25 by craffate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
+
+t_file		**insert(t_file **args, t_file *file)
+{
+	t_file			**tmp;
+	unsigned int	i;
+
+	i = 0;
+	while (args && args[i])
+		i++;
+	if (!(tmp = (t_file **)malloc(sizeof(t_file *) * (i + 2))))
+	{
+		ft_printf(ERROR);
+		exit(EXIT_FAILURE);
+	}
+	i = 0;
+	while (args && args[i])
+	{
+		tmp[i] = args[i];
+		i++;
+	}
+	tmp[i++] = file;
+	tmp[i] = 0;
+	args ? free(args) : 0;
+	return (tmp);
+}
 
 t_file		*create_struct(char *name, char *path)
 {
@@ -20,7 +45,7 @@ t_file		*create_struct(char *name, char *path)
 		return (0);
 	arg->name = ft_strdup(name);
 	arg->path = ft_strdup(path);
-	lstat(path, &arg->stat);
+	lstat(join_path(path, name), &arg->stat);
 	return (arg);
 }
 
