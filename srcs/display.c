@@ -6,13 +6,13 @@
 /*   By: craffate <craffate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/02 16:14:58 by craffate          #+#    #+#             */
-/*   Updated: 2017/02/02 22:25:03 by craffate         ###   ########.fr       */
+/*   Updated: 2017/02/03 23:19:33 by craffate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-static char	*rights(t_file *file)
+static char				*rights(t_file *file)
 {
 	unsigned int	i;
 	char			*s;
@@ -32,7 +32,7 @@ static char	*rights(t_file *file)
 	return (s);
 }
 
-static long long int total(t_file **dir)
+static long long int	total(t_file **dir)
 {
 	long long int	t;
 
@@ -45,19 +45,32 @@ static long long int total(t_file **dir)
 	return (t);
 }
 
-static void	display_l(t_file *dir, int i, size_t s)
+static void				display_l(t_file *dir, int i, size_t *schars)
 {
 	S_ISSOCK((*dir).stat.st_mode) ?
-	ft_printf("%s %2u %s  %s %*u {white}%s{eoc}\n", rights(dir), (*dir).stat.st_nlink, getpwuid((*dir).stat.st_uid)->pw_name, getgrgid((*dir).stat.st_gid)->gr_name, s, (*dir).stat.st_size, (*dir).name) : 0;
+	ft_printf("%s %2u %-*s  %-*s %-*u {white}%s{eoc}\n", rights(dir),
+	(*dir).stat.st_nlink, schars[0], getpwuid((*dir).stat.st_uid)->pw_name,
+	schars[1], getgrgid((*dir).stat.st_gid)->gr_name, (int)schars[2],
+	(*dir).stat.st_size, (*dir).name) : 0;
 	S_ISLNK((*dir).stat.st_mode) ?
-	ft_printf("%s %2u %s  %s %*u {yellow}%s{eoc}\n", rights(dir), (*dir).stat.st_nlink, getpwuid((*dir).stat.st_uid)->pw_name, getgrgid((*dir).stat.st_gid)->gr_name, s, (*dir).stat.st_size, (*dir).name) : 0;
+	ft_printf("%s %2u %-*s  %-*s %-*u {yellow}%s{eoc}\n", rights(dir),
+	(*dir).stat.st_nlink, schars[0], getpwuid((*dir).stat.st_uid)->pw_name,
+	schars[1], getgrgid((*dir).stat.st_gid)->gr_name, (int)schars[2],
+	(*dir).stat.st_size, (*dir).name) : 0;
 	S_ISDIR((*dir).stat.st_mode) ?
-	ft_printf("%s %2u %s  %s %*u {cyan}%s{eoc}\n", rights(dir), (*dir).stat.st_nlink, getpwuid((*dir).stat.st_uid)->pw_name, getgrgid((*dir).stat.st_gid)->gr_name, s, (*dir).stat.st_size, (*dir).name) : 0;
+	ft_printf("%s %2u %-*s  %-*s %-*u {cyan}%s{eoc}\n", rights(dir),
+	(*dir).stat.st_nlink, schars[0], getpwuid((*dir).stat.st_uid)->pw_name,
+	schars[1], getgrgid((*dir).stat.st_gid)->gr_name, (int)schars[2],
+	(*dir).stat.st_size, (*dir).name) : 0;
 	S_ISREG((*dir).stat.st_mode) ?
-	ft_printf("%s %2u %s  %s %*u %s\n", rights(dir), (*dir).stat.st_nlink, getpwuid((*dir).stat.st_uid)->pw_name, getgrgid((*dir).stat.st_gid)->gr_name, s, (*dir).stat.st_size, (*dir).name) : 0;
+	ft_printf("%s %2u %-*s  %-*s %-*u %s\n", rights(dir),
+	(*dir).stat.st_nlink, schars[0], getpwuid((*dir).stat.st_uid)->pw_name,
+	schars[1], getgrgid((*dir).stat.st_gid)->gr_name, (int)schars[2],
+	(*dir).stat.st_size, (*dir).name) : 0;
 }
 
-void		display(t_file **dir, int i, const unsigned short status, size_t s)
+void					display(t_file **dir, int i,
+						const unsigned short status, size_t *schars)
 {
 	unsigned int	j;
 
@@ -77,7 +90,7 @@ void		display(t_file **dir, int i, const unsigned short status, size_t s)
 			ft_printf("%s\t", (*dir[j]).name) : 0;
 		}
 		else if (i & LS_L)
-			display_l(dir[j], i, s);
+			display_l(dir[j], i, schars);
 		j++;
 	}
 }

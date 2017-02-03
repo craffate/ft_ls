@@ -6,28 +6,33 @@
 /*   By: craffate <craffate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/02 16:38:48 by craffate          #+#    #+#             */
-/*   Updated: 2017/02/02 23:02:56 by craffate         ###   ########.fr       */
+/*   Updated: 2017/02/03 23:14:32 by craffate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-size_t		maxsizechars(t_file **args)
+void		maxsizechars(t_file **args, size_t *schars)
 {
-	int		i;
-	size_t	j;
+	unsigned int	i;
+	unsigned int	k;
 
 	i = 0;
-	j = 0;
+	k = 1;
 	while (*args)
 	{
+		schars[0] = ft_strlen(getpwuid((*args)->stat.st_uid)->pw_name) >
+			schars[0] ? ft_strlen(getpwuid((*args)->stat.st_uid)->pw_name) :
+			schars[0];
+		schars[1] = ft_strlen(getgrgid((*args)->stat.st_gid)->gr_name) >
+			schars[1] ? ft_strlen(getgrgid((*args)->stat.st_gid)->gr_name) :
+			schars[1];
 		i = (*args)->stat.st_size > i ? (*args)->stat.st_size : i;
 		args++;
 	}
 	while (i /= 10)
-		j++;
-	j++;
-	return (j);
+		k++;
+	schars[2] = k > schars[2] ? k : schars[2];
 }
 
 t_file		**insert(t_file **args, t_file *file)
