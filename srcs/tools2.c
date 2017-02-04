@@ -6,7 +6,7 @@
 /*   By: craffate <craffate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/04 01:11:19 by craffate          #+#    #+#             */
-/*   Updated: 2017/02/04 01:15:36 by craffate         ###   ########.fr       */
+/*   Updated: 2017/02/05 02:59:22 by craffate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,4 +22,17 @@ size_t	*arrnew(size_t s)
 	while (i != s)
 		arr[i++] = 0;
 	return (arr);
+}
+
+long long int	total(t_file **dir)
+{
+	long long int	t;
+
+	t = 0;
+	while (*dir)
+	{
+		t += (**dir).stat.st_blocks;
+		dir++;
+	}
+	return (t);
 }

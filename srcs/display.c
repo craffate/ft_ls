@@ -6,7 +6,7 @@
 /*   By: craffate <craffate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/02 16:14:58 by craffate          #+#    #+#             */
-/*   Updated: 2017/02/04 01:19:15 by craffate         ###   ########.fr       */
+/*   Updated: 2017/02/05 02:52:47 by craffate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,19 +32,6 @@ static char				*rights(t_file *file)
 	return (s);
 }
 
-static long long int	total(t_file **dir)
-{
-	long long int	t;
-
-	t = 0;
-	while (*dir)
-	{
-		t += (**dir).stat.st_blocks;
-		dir++;
-	}
-	return (t);
-}
-
 /*
 **static void				display_l_alt(t_file *dir, int i, size_t *schars)
 **{
@@ -52,7 +39,7 @@ static long long int	total(t_file **dir)
 **}
 */
 
-static void				display_l(t_file *dir, int i, size_t *schars)
+void				display_l(t_file *dir, int i, size_t *schars)
 {
 	S_ISSOCK((*dir).stat.st_mode) ?
 	ft_printf("%-11s %*u %-*s  %-*s %*u {white}%s{eoc}\n", rights(dir), schars[3],
@@ -77,26 +64,27 @@ static void				display_l(t_file *dir, int i, size_t *schars)
 //	display_l_alt(dir, i, schars);
 }
 
-void					display(t_file **dir, int i,
-						const unsigned short status, size_t *schars)
+void					display_nl(t_file *dir, int i, size_t *schars)
+{
+	S_ISSOCK((*dir).stat.st_mode) ?
+	ft_printf("{white}%s{eoc}\n", (*dir).name) : 0;
+	S_ISLNK((*dir).stat.st_mode) ?
+	ft_printf("{yellow}%s{eoc}\n", (*dir).name) : 0;
+	S_ISDIR((*dir).stat.st_mode) ?
+	ft_printf("{cyan}%s{eoc}\n", (*dir).name) : 0;
+	S_ISREG((*dir).stat.st_mode) ? ft_printf("%s\n", (*dir).name) : 0;
+
+}
+
+void					display(t_file **dir, int i, size_t *schars)
 {
 	unsigned int	j;
 
 	j = 0;
-	(i & LS_L) && status == 1 ? ft_printf("Total: %lld\n", total(dir)) : 0;
 	while (dir[j])
 	{
 		if (!(i & LS_L))
-		{
-			S_ISSOCK((*dir[j]).stat.st_mode) ?
-			ft_printf("{white}%s{eoc}\t", (*dir[j]).name) : 0;
-			S_ISLNK((*dir[j]).stat.st_mode) ?
-			ft_printf("{yellow}%s{eoc}\t", (*dir[j]).name) : 0;
-			S_ISDIR((*dir[j]).stat.st_mode) ?
-			ft_printf("{cyan}%s{eoc}\t", (*dir[j]).name) : 0;
-			S_ISREG((*dir[j]).stat.st_mode) ?
-			ft_printf("%s\t", (*dir[j]).name) : 0;
-		}
+			display_nl(dir[j], i, schars);
 		else if (i & LS_L)
 			display_l(dir[j], i, schars);
 		j++;

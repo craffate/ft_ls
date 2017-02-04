@@ -6,7 +6,7 @@
 /*   By: craffate <craffate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/24 13:02:53 by craffate          #+#    #+#             */
-/*   Updated: 2017/02/03 23:42:47 by craffate         ###   ########.fr       */
+/*   Updated: 2017/02/05 03:11:01 by craffate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,22 +16,23 @@ int			main(int ac, char **av)
 {
 	unsigned int	i;
 	unsigned int	j;
-	DIR				*d;
 
 	i = 0;
 	j = 1;
-	ft_printf("{yellow}[ft_ls]{eoc}\n");
 	if (ac == 1 || (ac == 2 && *av[1] == '-'))
 	{
 		ac == 2 ? (i = ft_ls_parse(av[1])) : 0;
+		ft_printf("{yellow}[ft_ls]{eoc}\n");
 		ft_ls(create_struct("", "."), i);
 	}
 	else
 	{
-		if (*av[1] == '-' && (i = ft_ls_parse(av[j])))
+		i |= ac > 3 ? MUL_ARGS : 0;
+		ft_printf("{yellow}[ft_ls]{eoc}\n");
+		if (*av[1] == '-' && (i |= ft_ls_parse(av[j])))
 			j = 2;
 		while (j != ac)
-			ft_ls(create_struct(av[j++], ""), i);
+			ft_ls(create_struct("", av[j++]), i);
 	}
 	return (0);
 }
