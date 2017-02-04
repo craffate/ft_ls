@@ -4,7 +4,8 @@ SRCS_FILES	=	main.c \
 				ft_ls_parse.c \
 				ft_ls.c \
 				display.c \
-				tools.c
+				tools.c \
+				tools2.c
 
 LIBFT		=	libft.a
 

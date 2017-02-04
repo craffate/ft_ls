@@ -6,7 +6,7 @@
 /*   By: craffate <craffate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/02 16:14:58 by craffate          #+#    #+#             */
-/*   Updated: 2017/02/03 23:19:33 by craffate         ###   ########.fr       */
+/*   Updated: 2017/02/04 01:19:15 by craffate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,28 +45,36 @@ static long long int	total(t_file **dir)
 	return (t);
 }
 
+/*
+**static void				display_l_alt(t_file *dir, int i, size_t *schars)
+**{
+**
+**}
+*/
+
 static void				display_l(t_file *dir, int i, size_t *schars)
 {
 	S_ISSOCK((*dir).stat.st_mode) ?
-	ft_printf("%s %2u %-*s  %-*s %-*u {white}%s{eoc}\n", rights(dir),
+	ft_printf("%-11s %*u %-*s  %-*s %*u {white}%s{eoc}\n", rights(dir), schars[3],
 	(*dir).stat.st_nlink, schars[0], getpwuid((*dir).stat.st_uid)->pw_name,
-	schars[1], getgrgid((*dir).stat.st_gid)->gr_name, (int)schars[2],
+	schars[1], getgrgid((*dir).stat.st_gid)->gr_name, schars[2],
 	(*dir).stat.st_size, (*dir).name) : 0;
 	S_ISLNK((*dir).stat.st_mode) ?
-	ft_printf("%s %2u %-*s  %-*s %-*u {yellow}%s{eoc}\n", rights(dir),
+	ft_printf("%-11s %*u %-*s  %-*s %*u {yellow}%s{eoc}\n", rights(dir), schars[3],
 	(*dir).stat.st_nlink, schars[0], getpwuid((*dir).stat.st_uid)->pw_name,
-	schars[1], getgrgid((*dir).stat.st_gid)->gr_name, (int)schars[2],
+	schars[1], getgrgid((*dir).stat.st_gid)->gr_name, schars[2],
 	(*dir).stat.st_size, (*dir).name) : 0;
 	S_ISDIR((*dir).stat.st_mode) ?
-	ft_printf("%s %2u %-*s  %-*s %-*u {cyan}%s{eoc}\n", rights(dir),
+	ft_printf("%-11s %*u %-*s  %-*s %*u {cyan}%s{eoc}\n", rights(dir), schars[3],
 	(*dir).stat.st_nlink, schars[0], getpwuid((*dir).stat.st_uid)->pw_name,
-	schars[1], getgrgid((*dir).stat.st_gid)->gr_name, (int)schars[2],
+	schars[1], getgrgid((*dir).stat.st_gid)->gr_name, schars[2],
 	(*dir).stat.st_size, (*dir).name) : 0;
 	S_ISREG((*dir).stat.st_mode) ?
-	ft_printf("%s %2u %-*s  %-*s %-*u %s\n", rights(dir),
+	ft_printf("%-11s %*u %-*s  %-*s %*u %s\n", rights(dir), schars[3],
 	(*dir).stat.st_nlink, schars[0], getpwuid((*dir).stat.st_uid)->pw_name,
-	schars[1], getgrgid((*dir).stat.st_gid)->gr_name, (int)schars[2],
+	schars[1], getgrgid((*dir).stat.st_gid)->gr_name, schars[2],
 	(*dir).stat.st_size, (*dir).name) : 0;
+//	display_l_alt(dir, i, schars);
 }
 
 void					display(t_file **dir, int i,

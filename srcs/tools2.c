@@ -1,37 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   tools2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: craffate <craffate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/01/24 13:02:53 by craffate          #+#    #+#             */
-/*   Updated: 2017/02/03 23:42:47 by craffate         ###   ########.fr       */
+/*   Created: 2017/02/04 01:11:19 by craffate          #+#    #+#             */
+/*   Updated: 2017/02/04 01:15:36 by craffate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-int			main(int ac, char **av)
+size_t	*arrnew(size_t s)
 {
+	size_t			*arr;
 	unsigned int	i;
-	unsigned int	j;
-	DIR				*d;
 
-	i = 0;
-	j = 1;
-	ft_printf("{yellow}[ft_ls]{eoc}\n");
-	if (ac == 1 || (ac == 2 && *av[1] == '-'))
-	{
-		ac == 2 ? (i = ft_ls_parse(av[1])) : 0;
-		ft_ls(create_struct("", "."), i);
-	}
-	else
-	{
-		if (*av[1] == '-' && (i = ft_ls_parse(av[j])))
-			j = 2;
-		while (j != ac)
-			ft_ls(create_struct(av[j++], ""), i);
-	}
-	return (0);
+	if (!(arr = malloc(sizeof(size_t) * s)))
+		return (0);
+	while (i != s)
+		arr[i++] = 0;
+	return (arr);
 }

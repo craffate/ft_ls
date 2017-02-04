@@ -6,7 +6,7 @@
 /*   By: craffate <craffate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/24 12:56:26 by craffate          #+#    #+#             */
-/*   Updated: 2017/02/03 22:47:32 by craffate         ###   ########.fr       */
+/*   Updated: 2017/02/04 01:13:35 by craffate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,5 +49,6 @@ void			display(t_file **dir, int i, const unsigned short status,
 void			freetab(t_file **tab);
 char			*join_path(char *s1, char *s2);
 void			maxsizechars(t_file **args, size_t *schars);
+size_t			*arrnew(size_t s);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: craffate <craffate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/24 15:09:27 by craffate          #+#    #+#             */
-/*   Updated: 2017/02/03 23:13:57 by craffate         ###   ########.fr       */
+/*   Updated: 2017/02/04 01:15:18 by craffate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ static t_file	**parse(DIR *d, char *path, int i, size_t *schars)
 		else if (s_dir->d_type == DT_DIR && *s_dir->d_name != '.')
 			dirs = insert(dirs, file);
 	}
-	maxsizechars(files, schars);
-	maxsizechars(dirs, schars);
+	files ? maxsizechars(files, schars) : 0;
+	dirs ? maxsizechars(dirs, schars) : 0;
 	display(files, i, 1, schars);
 	freetab(files);
 	return (dirs);
@@ -42,14 +42,10 @@ int				ft_ls(t_file *dir, int i)
 	DIR				*d;
 	char			*path;
 	unsigned int	j;
-	size_t			*schars; /* 0: uid, 1: gid, 2: size */
+	size_t			*schars; /* 0: uid, 1: gid, 2: size 3: hlinks */
 
 	j = 0;
-	if (!(schars = (size_t *)malloc(sizeof(size_t) * 3)))
-	{
-		ft_printf(ERROR);
-		exit(EXIT_FAILURE);
-	}
+	schars = arrnew(4);
 	path = join_path(dir->path, dir->name);
 	d = opendir(path);
 	i & LS_CR ? ft_printf("\n\n{green}%s:\n{eoc}", (path)) : 0;
@@ -62,5 +58,6 @@ int				ft_ls(t_file *dir, int i)
 	else if (!(i & LS_CR))
 		display(dirs, i, 0, schars);
 	closedir(d);
+	free(schars);
 	return (0);
 }

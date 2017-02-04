@@ -6,7 +6,7 @@
 /*   By: craffate <craffate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/02 16:38:48 by craffate          #+#    #+#             */
-/*   Updated: 2017/02/03 23:14:32 by craffate         ###   ########.fr       */
+/*   Updated: 2017/02/04 01:13:36 by craffate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,12 @@
 
 void		maxsizechars(t_file **args, size_t *schars)
 {
-	unsigned int	i;
-	unsigned int	k;
+	int				i;
+	int				j;
+	size_t			k;
 
 	i = 0;
+	j = 0;
 	k = 1;
 	while (*args)
 	{
@@ -28,11 +30,16 @@ void		maxsizechars(t_file **args, size_t *schars)
 			schars[1] ? ft_strlen(getgrgid((*args)->stat.st_gid)->gr_name) :
 			schars[1];
 		i = (*args)->stat.st_size > i ? (*args)->stat.st_size : i;
+		j = (*args)->stat.st_nlink > j ? (*args)->stat.st_nlink : j;
 		args++;
 	}
 	while (i /= 10)
 		k++;
 	schars[2] = k > schars[2] ? k : schars[2];
+	k = 1;
+	while (j /= 10)
+		k++;
+	schars[3] = k > schars[3] ? k : schars[3];
 }
 
 t_file		**insert(t_file **args, t_file *file)
@@ -43,7 +50,7 @@ t_file		**insert(t_file **args, t_file *file)
 	i = 0;
 	while (args && args[i])
 		i++;
-	if (!(tmp = (t_file **)malloc(sizeof(t_file *) * (i + 2))))
+	if (!(tmp = malloc(sizeof(t_file *) * (i + 2))))
 	{
 		ft_printf(ERROR);
 		exit(EXIT_FAILURE);
@@ -64,8 +71,11 @@ t_file		*create_struct(char *name, char *path)
 {
 	t_file	*arg;
 
-	if (!(arg = (t_file *)malloc(sizeof(t_file))))
-		return (0);
+	if (!(arg = malloc(sizeof(t_file))))
+	{
+		ft_printf(ERROR);
+		exit(EXIT_FAILURE);
+	}
 	arg->name = ft_strdup(name);
 	arg->path = ft_strdup(path);
 	lstat(join_path(path, name), &arg->stat);
@@ -92,12 +102,15 @@ char		*join_path(char *s1, char *s2)
 	char			*s3;
 
 	i = 0;
-	if (!(s3 = (char *)malloc(sizeof(char) *
+	if (!(s3 = malloc(sizeof(char) *
 		(ft_strlen(s1) + ft_strlen(s2) + 2))))
-		return (NULL);
+	{
+		ft_printf(ERROR);
+		exit(EXIT_FAILURE);
+	}
 	while (*s1)
 		s3[i++] = *s1++;
-	if (i)
+	if (i && s3[i - 1] != '/')
 		s3[i++] = '/';
 	while (*s2)
 		s3[i++] = *s2++;
