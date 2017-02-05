@@ -6,7 +6,7 @@
 /*   By: craffate <craffate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/04 01:11:19 by craffate          #+#    #+#             */
-/*   Updated: 2017/02/05 02:59:22 by craffate         ###   ########.fr       */
+/*   Updated: 2017/02/05 04:02:35 by craffate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,4 +35,10 @@ long long int	total(t_file **dir)
 		dir++;
 	}
 	return (t);
+}
+
+int				execcheck(t_file *file)
+{
+	return ((*file).stat.st_mode & S_IXUSR || (*file).stat.st_mode & S_IXGRP ||
+			(*file).stat.st_mode & S_IXOTH ? 1 : 0);
 }

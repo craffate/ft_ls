@@ -6,7 +6,7 @@
 /*   By: craffate <craffate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/02 16:14:58 by craffate          #+#    #+#             */
-/*   Updated: 2017/02/05 02:52:47 by craffate         ###   ########.fr       */
+/*   Updated: 2017/02/05 04:08:12 by craffate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,12 @@ void				display_l(t_file *dir, int i, size_t *schars)
 	(*dir).stat.st_nlink, schars[0], getpwuid((*dir).stat.st_uid)->pw_name,
 	schars[1], getgrgid((*dir).stat.st_gid)->gr_name, schars[2],
 	(*dir).stat.st_size, (*dir).name) : 0;
-	S_ISREG((*dir).stat.st_mode) ?
+	execcheck(dir) && !(S_ISDIR((*dir).stat.st_mode)) ?
+	ft_printf("%-11s %*u %-*s  %-*s %*u {red}%s{eoc}\n", rights(dir), schars[3],
+	(*dir).stat.st_nlink, schars[0], getpwuid((*dir).stat.st_uid)->pw_name,
+	schars[1], getgrgid((*dir).stat.st_gid)->gr_name, schars[2],
+	(*dir).stat.st_size, (*dir).name) : 0;
+	S_ISREG((*dir).stat.st_mode) && !(execcheck(dir)) ?
 	ft_printf("%-11s %*u %-*s  %-*s %*u %s\n", rights(dir), schars[3],
 	(*dir).stat.st_nlink, schars[0], getpwuid((*dir).stat.st_uid)->pw_name,
 	schars[1], getgrgid((*dir).stat.st_gid)->gr_name, schars[2],
@@ -72,7 +77,10 @@ void					display_nl(t_file *dir, int i, size_t *schars)
 	ft_printf("{yellow}%s{eoc}\n", (*dir).name) : 0;
 	S_ISDIR((*dir).stat.st_mode) ?
 	ft_printf("{cyan}%s{eoc}\n", (*dir).name) : 0;
-	S_ISREG((*dir).stat.st_mode) ? ft_printf("%s\n", (*dir).name) : 0;
+	execcheck(dir) && !(S_ISDIR((*dir).stat.st_mode)) ?
+	ft_printf("{red}%s{eoc}\n", (*dir).name) : 0;
+	S_ISREG((*dir).stat.st_mode) && !(execcheck(dir)) ?
+	ft_printf("%s\n", (*dir).name) : 0;
 
 }
 

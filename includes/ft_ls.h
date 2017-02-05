@@ -6,7 +6,7 @@
 /*   By: craffate <craffate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/24 12:56:26 by craffate          #+#    #+#             */
-/*   Updated: 2017/02/05 02:59:32 by craffate         ###   ########.fr       */
+/*   Updated: 2017/02/05 04:01:58 by craffate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,5 +53,6 @@ char			*join_path(char *s1, char *s2);
 void			maxsizechars(t_file **args, size_t *schars);
 size_t			*arrnew(size_t s);
 long long int	total(t_file **dir);
+int				execcheck(t_file *file);
 
 #endif
