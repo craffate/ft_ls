@@ -6,7 +6,7 @@
 /*   By: craffate <craffate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/24 13:04:44 by craffate          #+#    #+#             */
-/*   Updated: 2017/02/04 05:23:45 by craffate         ###   ########.fr       */
+/*   Updated: 2017/02/05 04:32:09 by craffate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,19 @@ int		ft_ls_parse(const char *s)
 	int		i;
 
 	i = 0;
-	if (*s == '-')
+	if (*s == '-' && *(s + 1) != 0)
 		s++;
 	else
-		return (i);
+	{
+		ft_printf(ERROR_USAGE);
+		exit(EXIT_SUCCESS);
+	}
 	while (*s)
 	{
 		if (*s != 'l' && *s != 'R' && *s != 'a' && *s != 'r' && *s != 't')
 		{
 			ft_printf(ERROR_USAGE);
-			exit(EXIT_FAILURE);
+			exit(EXIT_SUCCESS);
 		}
 		i |= *s == 'l' ? LS_L : i;
 		i |= *s == 'R' ? LS_CR : i;
