@@ -6,13 +6,13 @@
 /*   By: craffate <craffate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/04 01:11:19 by craffate          #+#    #+#             */
-/*   Updated: 2017/02/05 04:23:06 by craffate         ###   ########.fr       */
+/*   Updated: 2017/02/07 14:38:11 by craffate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-size_t	*arrnew(size_t s)
+size_t			*arrnew(size_t s)
 {
 	size_t			*arr;
 	unsigned int	i;
@@ -41,4 +41,19 @@ int				execcheck(t_file *file)
 {
 	return ((*file).stat.st_mode & S_IXUSR || (*file).stat.st_mode & S_IXGRP ||
 			(*file).stat.st_mode & S_IXOTH ? 1 : 0);
+}
+
+void			getsizes(size_t *schars, t_file **files, t_file **dirs,
+				t_file **hfiles)
+{
+	files ? maxsizechars(files, schars) : 0;
+	dirs ? maxsizechars(dirs, schars) : 0;
+	hfiles ? maxsizechars(hfiles, schars) : 0;
+}
+
+void			gettotals(size_t *schars, int i, t_file **files,
+				t_file **hfiles)
+{
+	schars[4] = files ? total(files) : schars[4];
+	schars[4] += i & LS_A && hfiles ? total(hfiles) : 0;
 }

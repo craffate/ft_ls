@@ -6,7 +6,7 @@
 /*   By: craffate <craffate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/24 12:56:26 by craffate          #+#    #+#             */
-/*   Updated: 2017/02/05 04:33:54 by craffate         ###   ########.fr       */
+/*   Updated: 2017/02/07 13:52:33 by craffate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@
 
 # define ERROR "\x1b[33m[ft_ls]\x1b[0m an error has occured and the process has been terminated\n"
 # define ERROR_USAGE "\x1b[33m[ft_ls]\x1b[0m illegal option\n\x1b[33m[ft_ls]\x1b[0m usage: ft_ls [-lRart] [file ...]\n"
+# define DENIED "Permission denied\n"
 
 typedef struct stat	t_stat;
 
@@ -54,5 +55,10 @@ void				maxsizechars(t_file **args, size_t *schars);
 size_t				*arrnew(size_t s);
 long long int		total(t_file **dir);
 int					execcheck(t_file *file);
+void				gettotals(size_t *schars, int i, t_file **files,
+					t_file **hfiles);
+void				getsizes(size_t *schars, t_file **files, t_file **dirs,
+					t_file **hfiles);
+char				*getdate_ls(time_t t);
 
 #endif

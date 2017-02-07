@@ -6,13 +6,13 @@
 /*   By: craffate <craffate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/02 16:14:58 by craffate          #+#    #+#             */
-/*   Updated: 2017/02/05 04:52:37 by craffate         ###   ########.fr       */
+/*   Updated: 2017/02/07 14:31:35 by craffate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-static char				*rights(t_file *file)
+static char	*rights(t_file *file)
 {
 	unsigned int	i;
 	char			*s;
@@ -32,44 +32,58 @@ static char				*rights(t_file *file)
 	return (s);
 }
 
-/*
-**static void				display_l_alt(t_file *dir, int i, size_t *schars)
-**{
-**
-**}
-*/
-
-void				display_l(t_file *dir, int i, size_t *schars)
+static void	display_l_alt(t_file *dir, int i, size_t *schars)
 {
-	S_ISSOCK((*dir).stat.st_mode) ?
-	ft_printf("%-11s %*u %-*s  %-*s %*u {white}%s{eoc}\n", rights(dir), schars[3],
-	(*dir).stat.st_nlink, schars[0], getpwuid((*dir).stat.st_uid)->pw_name,
-	schars[1], getgrgid((*dir).stat.st_gid)->gr_name, schars[2],
-	(*dir).stat.st_size, (*dir).name) : 0;
-	S_ISLNK((*dir).stat.st_mode) ?
-	ft_printf("%-11s %*u %-*s  %-*s %*u {yellow}%s{eoc}\n", rights(dir), schars[3],
-	(*dir).stat.st_nlink, schars[0], getpwuid((*dir).stat.st_uid)->pw_name,
-	schars[1], getgrgid((*dir).stat.st_gid)->gr_name, schars[2],
-	(*dir).stat.st_size, (*dir).name) : 0;
-	S_ISDIR((*dir).stat.st_mode) ?
-	ft_printf("%-11s %*u %-*s  %-*s %*u {cyan}%s{eoc}\n", rights(dir), schars[3],
-	(*dir).stat.st_nlink, schars[0], getpwuid((*dir).stat.st_uid)->pw_name,
-	schars[1], getgrgid((*dir).stat.st_gid)->gr_name, schars[2],
-	(*dir).stat.st_size, (*dir).name) : 0;
-	execcheck(dir) && !(S_ISDIR((*dir).stat.st_mode)) ?
-	ft_printf("%-11s %*u %-*s  %-*s %*u {red}%s{eoc}\n", rights(dir), schars[3],
-	(*dir).stat.st_nlink, schars[0], getpwuid((*dir).stat.st_uid)->pw_name,
-	schars[1], getgrgid((*dir).stat.st_gid)->gr_name, schars[2],
-	(*dir).stat.st_size, (*dir).name) : 0;
+	char	*r;
+	char	*d;
+
+	r = rights(dir);
+	d = getdate_ls((*dir).stat.st_mtime);
 	S_ISREG((*dir).stat.st_mode) && !(execcheck(dir)) ?
-	ft_printf("%-11s %*u %-*s  %-*s %*u %s\n", rights(dir), schars[3],
+	ft_printf("%-11s %*u %-*s  %-*s %*u %s %s\n", r, schars[3],
 	(*dir).stat.st_nlink, schars[0], getpwuid((*dir).stat.st_uid)->pw_name,
 	schars[1], getgrgid((*dir).stat.st_gid)->gr_name, schars[2],
-	(*dir).stat.st_size, (*dir).name) : 0;
-//	display_l_alt(dir, i, schars);
+	(*dir).stat.st_size, d, (*dir).name) : 0;
+	free(r);
 }
 
-void					display_nl(t_file *dir, int i, size_t *schars)
+void		display_l(t_file *dir, int i, size_t *schars)
+{
+	char	*r;
+	char	*d;
+
+	r = rights(dir);
+	d = getdate_ls((*dir).stat.st_mtime);
+	S_ISSOCK((*dir).stat.st_mode) ?
+	ft_printf("%-11s %*u %-*s  %-*s %*u %s {white}%s{eoc}\n", r,
+	schars[3], (*dir).stat.st_nlink, schars[0],
+	getpwuid((*dir).stat.st_uid)->pw_name, schars[1],
+	getgrgid((*dir).stat.st_gid)->gr_name, schars[2],
+	(*dir).stat.st_size, d, (*dir).name) : 0;
+	S_ISLNK((*dir).stat.st_mode) ?
+	ft_printf("%-11s %*u %-*s  %-*s %*u %s {yellow}%s{eoc}\n", r,
+	schars[3], (*dir).stat.st_nlink, schars[0],
+	getpwuid((*dir).stat.st_uid)->pw_name, schars[1],
+	getgrgid((*dir).stat.st_gid)->gr_name, schars[2],
+	(*dir).stat.st_size, d, (*dir).name) : 0;
+	S_ISDIR((*dir).stat.st_mode) ?
+	ft_printf("%-11s %*u %-*s  %-*s %*u %s {cyan}%s{eoc}\n", r,
+	schars[3], (*dir).stat.st_nlink, schars[0],
+	getpwuid((*dir).stat.st_uid)->pw_name, schars[1],
+	getgrgid((*dir).stat.st_gid)->gr_name, schars[2],
+	(*dir).stat.st_size, d, (*dir).name) : 0;
+	execcheck(dir) && !(S_ISDIR((*dir).stat.st_mode)) ?
+	ft_printf("%-11s %*u %-*s  %-*s %*u %s {red}%s{eoc}\n", r,
+	schars[3], (*dir).stat.st_nlink, schars[0],
+	getpwuid((*dir).stat.st_uid)->pw_name, schars[1],
+	getgrgid((*dir).stat.st_gid)->gr_name, schars[2], (*dir).stat.st_size,
+	d, (*dir).name) : 0;
+	free(r);
+	free(d);
+	display_l_alt(dir, i, schars);
+}
+
+void		display_nl(t_file *dir, int i, size_t *schars)
 {
 	S_ISSOCK((*dir).stat.st_mode) ?
 	ft_printf("{white}%s{eoc}\n", (*dir).name) : 0;
@@ -81,10 +95,9 @@ void					display_nl(t_file *dir, int i, size_t *schars)
 	ft_printf("{red}%s{eoc}\n", (*dir).name) : 0;
 	S_ISREG((*dir).stat.st_mode) && !(execcheck(dir)) ?
 	ft_printf("%s\n", (*dir).name) : 0;
-
 }
 
-void					display(t_file **dir, int i, size_t *schars)
+void		display(t_file **dir, int i, size_t *schars)
 {
 	unsigned int	j;
 

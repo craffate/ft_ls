@@ -6,7 +6,7 @@
 /*   By: craffate <craffate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/02 16:38:48 by craffate          #+#    #+#             */
-/*   Updated: 2017/02/05 03:29:23 by craffate         ###   ########.fr       */
+/*   Updated: 2017/02/07 14:37:16 by craffate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 void		maxsizechars(t_file **args, size_t *schars)
 {
-	int				i;
-	int				j;
-	size_t			k;
+	int		i;
+	int		j;
+	size_t	k;
 
 	i = 0;
 	j = 0;
@@ -24,11 +24,10 @@ void		maxsizechars(t_file **args, size_t *schars)
 	while (*args)
 	{
 		schars[0] = ft_strlen(getpwuid((*args)->stat.st_uid)->pw_name) >
-			schars[0] ? ft_strlen(getpwuid((*args)->stat.st_uid)->pw_name) :
-			schars[0];
+		*schars ? ft_strlen(getpwuid((*args)->stat.st_uid)->pw_name) : *schars;
 		schars[1] = ft_strlen(getgrgid((*args)->stat.st_gid)->gr_name) >
-			schars[1] ? ft_strlen(getgrgid((*args)->stat.st_gid)->gr_name) :
-			schars[1];
+		schars[1] ? ft_strlen(getgrgid((*args)->stat.st_gid)->gr_name) :
+		schars[1];
 		i = (*args)->stat.st_size > i ? (*args)->stat.st_size : i;
 		j = (*args)->stat.st_nlink > j ? (*args)->stat.st_nlink : j;
 		args++;
@@ -63,7 +62,6 @@ t_file		**insert(t_file **args, t_file *file)
 	}
 	tmp[i++] = file;
 	tmp[i] = 0;
-	args ? free(args) : 0;
 	return (tmp);
 }
 
