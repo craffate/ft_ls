@@ -6,7 +6,7 @@
 /*   By: craffate <craffate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/02 16:14:58 by craffate          #+#    #+#             */
-/*   Updated: 2017/02/07 14:31:35 by craffate         ###   ########.fr       */
+/*   Updated: 2017/02/08 17:23:55 by craffate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static char	*rights(t_file *file)
 	return (s);
 }
 
-static void	display_l_alt(t_file *dir, int i, size_t *schars)
+static void	display_l_alt(t_file *dir, size_t *schars)
 {
 	char	*r;
 	char	*d;
@@ -47,7 +47,7 @@ static void	display_l_alt(t_file *dir, int i, size_t *schars)
 	free(r);
 }
 
-void		display_l(t_file *dir, int i, size_t *schars)
+void		display_l(t_file *dir, size_t *schars)
 {
 	char	*r;
 	char	*d;
@@ -80,10 +80,10 @@ void		display_l(t_file *dir, int i, size_t *schars)
 	d, (*dir).name) : 0;
 	free(r);
 	free(d);
-	display_l_alt(dir, i, schars);
+	display_l_alt(dir, schars);
 }
 
-void		display_nl(t_file *dir, int i, size_t *schars)
+void		display_nl(t_file *dir)
 {
 	S_ISSOCK((*dir).stat.st_mode) ?
 	ft_printf("{white}%s{eoc}\n", (*dir).name) : 0;
@@ -105,9 +105,9 @@ void		display(t_file **dir, int i, size_t *schars)
 	while (dir[j])
 	{
 		if (!(i & LS_L))
-			display_nl(dir[j], i, schars);
+			display_nl(dir[j]);
 		else if (i & LS_L)
-			display_l(dir[j], i, schars);
+			display_l(dir[j], schars);
 		j++;
 	}
 }

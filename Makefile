@@ -24,7 +24,7 @@ all: $(NAME)
 
 $(NAME): $(LIBFT)
 	@echo "[Compiling $(NAME)]"
-	@$(CC) -o $(NAME) $(SRCS) -I$(INCLUDES) -L$(LIBFTPATH) -lft
+	@$(CC) $(FLAGS) -o $(NAME) $(SRCS) -I$(INCLUDES) -L$(LIBFTPATH) -lft
 
 $(LIBFT):
 	@make -C $(LIBFTPATH)
