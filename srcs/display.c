@@ -6,7 +6,7 @@
 /*   By: craffate <craffate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/02 16:14:58 by craffate          #+#    #+#             */
-/*   Updated: 2017/02/08 17:23:55 by craffate         ###   ########.fr       */
+/*   Updated: 2017/02/08 17:35:31 by craffate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ static void	display_l_alt(t_file *dir, size_t *schars)
 	(*dir).stat.st_nlink, schars[0], getpwuid((*dir).stat.st_uid)->pw_name,
 	schars[1], getgrgid((*dir).stat.st_gid)->gr_name, schars[2],
 	(*dir).stat.st_size, d, (*dir).name) : 0;
+	free(d);
 	free(r);
 }
 
