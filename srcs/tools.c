@@ -6,7 +6,7 @@
 /*   By: craffate <craffate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/02 16:38:48 by craffate          #+#    #+#             */
-/*   Updated: 2017/02/07 14:37:16 by craffate         ###   ########.fr       */
+/*   Updated: 2017/02/11 16:44:25 by craffate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,7 @@ t_file		**insert(t_file **args, t_file *file)
 	while (args && args[i])
 		i++;
 	if (!(tmp = malloc(sizeof(t_file *) * (i + 2))))
-	{
-		ft_printf(ERROR);
 		exit(EXIT_FAILURE);
-	}
 	i = 0;
 	while (args && args[i])
 	{
@@ -68,15 +65,14 @@ t_file		**insert(t_file **args, t_file *file)
 t_file		*create_struct(char *name, char *path)
 {
 	t_file	*arg;
+	char	*tmp;
 
 	if (!(arg = malloc(sizeof(t_file))))
-	{
-		ft_printf(ERROR);
 		exit(EXIT_FAILURE);
-	}
 	arg->name = ft_strdup(name);
 	arg->path = ft_strdup(path);
-	lstat(join_path(path, name), &arg->stat);
+	lstat((tmp = join_path(path, name)), &arg->stat);
+	free(tmp);
 	return (arg);
 }
 
@@ -102,10 +98,7 @@ char		*join_path(char *s1, char *s2)
 	i = 0;
 	if (!(s3 = malloc(sizeof(char) *
 		(ft_strlen(s1) + ft_strlen(s2) + 2))))
-	{
-		ft_printf(ERROR);
 		exit(EXIT_FAILURE);
-	}
 	while (*s1)
 		s3[i++] = *s1++;
 	if (i && s3[i - 1] != '/')

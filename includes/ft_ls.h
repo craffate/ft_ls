@@ -6,7 +6,7 @@
 /*   By: craffate <craffate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/24 12:56:26 by craffate          #+#    #+#             */
-/*   Updated: 2017/02/11 15:18:19 by craffate         ###   ########.fr       */
+/*   Updated: 2017/02/11 16:11:58 by craffate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,7 @@
 # define LS_T (1 << 4)
 # define MUL_ARGS (1 << 5)
 
-# define ERROR "\x1b[33m[ft_ls]\x1b[0m an error has occured and the process has been terminated\n"
-# define ERROR_USAGE "\x1b[33m[ft_ls]\x1b[0m illegal option\n\x1b[33m[ft_ls]\x1b[0m usage: ft_ls [-lRart] [file ...]\n"
+# define ERROR_USAGE "\x1b[33m[ft_ls]\x1b[0m usage: ft_ls [-lRart] [file ...]\n"
 # define DENIED "Permission denied\n"
 
 typedef struct stat	t_stat;

@@ -6,7 +6,7 @@
 /*   By: craffate <craffate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/24 15:09:27 by craffate          #+#    #+#             */
-/*   Updated: 2017/02/11 15:13:50 by craffate         ###   ########.fr       */
+/*   Updated: 2017/02/11 16:52:59 by craffate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,10 @@ static t_file	**parse(DIR *d, char *path, int i, size_t *schars)
 		file = create_struct(s_dir->d_name, path);
 		if (*s_dir->d_name == '.')
 			hfiles = insert(hfiles, file);
-		else if (s_dir->d_type == DT_LNK)
-			dirs = insert(dirs, file);
 		else if (s_dir->d_type != DT_DIR && *s_dir->d_name != '.')
 			files = insert(files, file);
-		else if (s_dir->d_type == DT_DIR && *s_dir->d_name != '.')
+		else if ((s_dir->d_type == DT_DIR && *s_dir->d_name != '.') ||
+				s_dir->d_type == DT_LNK)
 			dirs = insert(dirs, file);
 	}
 	i & LS_L ? getsizes(schars, files, dirs, hfiles) : 0;
@@ -72,7 +71,7 @@ int				ft_ls(t_file *dir, int i)
 		display(dirs, i, schars);
 		while (dirs[j])
 		{
-			while (S_ISLNK((dirs[j])->stat.st_mode))
+			while (dirs[j] && S_ISLNK((dirs[j])->stat.st_mode))
 				j++;
 			ft_ls(dirs[j++], i);
 		}

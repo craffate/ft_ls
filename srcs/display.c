@@ -6,7 +6,7 @@
 /*   By: craffate <craffate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/02 16:14:58 by craffate          #+#    #+#             */
-/*   Updated: 2017/02/11 15:17:52 by craffate         ###   ########.fr       */
+/*   Updated: 2017/02/11 16:12:26 by craffate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,13 @@ static char	*rights(t_file *file)
 	return (s);
 }
 
-static void	display_l_alt(t_file *dir)
+static void	display_l_alt(t_file *dir, char *buf)
 {
-	if (S_ISBLK((*dir).stat.st_mode))
+	if (S_ISSOCK((*dir).stat.st_mode))
+		ft_printf("{white}%s{eoc}\n", (*dir).name);
+	else if (S_ISLNK((*dir).stat.st_mode))
+		ft_printf("{yellow}%s{eoc} -> %s\n", (*dir).name, buf);
+	else if (S_ISBLK((*dir).stat.st_mode))
 		ft_printf("{magenta}%s{eoc}\n", (*dir).name);
 	else if (S_ISFIFO((*dir).stat.st_mode))
 		ft_printf("{blue}%s{eoc}\n", (*dir).name);
@@ -64,12 +68,7 @@ void		display_l(t_file *dir, size_t *schars)
 	(*dir).stat.st_nlink, schars[0], getpwuid((*dir).stat.st_uid)->pw_name,
 	schars[1], getgrgid((*dir).stat.st_gid)->gr_name, schars[2],
 	(*dir).stat.st_size, d);
-	if (S_ISSOCK((*dir).stat.st_mode))
-		ft_printf("{white}%s{eoc}\n", (*dir).name);
-	else if (S_ISLNK((*dir).stat.st_mode))
-		ft_printf("{yellow}%s{eoc} -> %s\n", (*dir).name, buf);
-	else
-		display_l_alt(dir);
+	display_l_alt(dir, buf);
 	free(r);
 	free(d);
 	free(tmp);
