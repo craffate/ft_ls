@@ -6,7 +6,7 @@
 /*   By: craffate <craffate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/24 12:56:26 by craffate          #+#    #+#             */
-/*   Updated: 2017/02/08 17:24:02 by craffate         ###   ########.fr       */
+/*   Updated: 2017/02/11 15:18:19 by craffate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,5 +60,6 @@ void				gettotals(size_t *schars, int i, t_file **files,
 void				getsizes(size_t *schars, t_file **files, t_file **dirs,
 					t_file **hfiles);
 char				*getdate_ls(time_t t);
+char				rights_type(t_file *file);
 
 #endif
