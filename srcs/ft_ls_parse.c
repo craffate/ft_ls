@@ -6,7 +6,7 @@
 /*   By: craffate <craffate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/24 13:04:44 by craffate          #+#    #+#             */
-/*   Updated: 2017/02/12 16:43:52 by craffate         ###   ########.fr       */
+/*   Updated: 2017/02/12 18:02:37 by craffate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,9 @@ int		ft_ls_parse(const char *s)
 		i |= *s == 'r' ? LS_R : i;
 		i |= *s == 't' ? LS_T : i;
 		i |= *s == 'u' ? LS_U : i;
-		i |= *s == 'd' ? LS_F : i;
+		i |= *s == 'f' ? LS_F : i;
 		s++;
 	}
+	i |= (i & LS_F) ? LS_A : i;
 	return (i);
 }
