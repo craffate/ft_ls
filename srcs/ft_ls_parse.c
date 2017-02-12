@@ -6,7 +6,7 @@
 /*   By: craffate <craffate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/24 13:04:44 by craffate          #+#    #+#             */
-/*   Updated: 2017/02/11 15:13:32 by craffate         ###   ########.fr       */
+/*   Updated: 2017/02/12 16:43:52 by craffate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,18 +17,19 @@ int		ft_ls_parse(const char *s)
 	int		i;
 
 	i = 0;
-	if (*s == '-' && *(s + 1) != 0)
+	if (*s == '-' && *(s + 1))
 		s++;
 	else
 	{
-		ft_printf(ERROR_USAGE);
+		ft_printf(USAGE);
 		exit(EXIT_FAILURE);
 	}
 	while (*s)
 	{
-		if (*s != 'l' && *s != 'R' && *s != 'a' && *s != 'r' && *s != 't')
+		if (*s != 'l' && *s != 'R' && *s != 'a' && *s != 'r' && *s != 't' &&
+			*s != 'u' && *s != 'f')
 		{
-			ft_printf(ERROR_USAGE);
+			ft_printf(USAGE);
 			exit(EXIT_FAILURE);
 		}
 		i |= *s == 'l' ? LS_L : i;
@@ -36,6 +37,8 @@ int		ft_ls_parse(const char *s)
 		i |= *s == 'a' ? LS_A : i;
 		i |= *s == 'r' ? LS_R : i;
 		i |= *s == 't' ? LS_T : i;
+		i |= *s == 'u' ? LS_U : i;
+		i |= *s == 'd' ? LS_F : i;
 		s++;
 	}
 	return (i);

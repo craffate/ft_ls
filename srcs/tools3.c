@@ -6,7 +6,7 @@
 /*   By: craffate <craffate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/07 12:31:04 by craffate          #+#    #+#             */
-/*   Updated: 2017/02/11 16:31:52 by craffate         ###   ########.fr       */
+/*   Updated: 2017/02/12 16:47:01 by craffate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,23 @@ char	rights_type(t_file *file)
 	else
 		c = '-';
 	return (c);
+}
+
+int		cmp(t_file *file, t_file *args, int fl)
+{
+	if (fl & LS_F)
+		return (1);
+	if (fl & LS_T)
+	{
+		if (fl & LS_U)
+		{
+			return (fl & LS_R ? (file->stat.st_atime > args->stat.st_atime) :
+					(file->stat.st_atime <= args->stat.st_atime));
+		}
+		return (fl & LS_R ? (file->stat.st_mtime > args->stat.st_mtime) :
+				(file->stat.st_mtime <= args->stat.st_mtime));
+	}
+	if (fl & LS_R)
+		return (ft_strcmp(file->name, args->name) < 1) ? 1 : 0;
+	return (ft_strcmp(file->name, args->name) > 0) ? 1 : 0;
 }

@@ -6,7 +6,7 @@
 /*   By: craffate <craffate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/02 16:38:48 by craffate          #+#    #+#             */
-/*   Updated: 2017/02/11 16:44:25 by craffate         ###   ########.fr       */
+/*   Updated: 2017/02/12 17:51:29 by craffate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,24 +41,33 @@ void		maxsizechars(t_file **args, size_t *schars)
 	schars[3] = k > schars[3] ? k : schars[3];
 }
 
-t_file		**insert(t_file **args, t_file *file)
+t_file		**insert(t_file **args, t_file *file, int fl)
 {
 	t_file			**tmp;
 	unsigned int	i;
+	unsigned int	l;
 
-	i = 0;
-	while (args && args[i])
-		i++;
-	if (!(tmp = malloc(sizeof(t_file *) * (i + 2))))
-		exit(EXIT_FAILURE);
-	i = 0;
-	while (args && args[i])
+	if (!args)
 	{
-		tmp[i] = args[i];
+		args = malloc(sizeof(t_file **));
+		*args = 0;
+	}
+	l = 0;
+	while (args[l])
+		l++;
+	if (!(tmp = malloc(sizeof(t_file *) * (l + 2))))
+		exit(EXIT_FAILURE);
+	tmp[l + 1] = 0;
+	i = 0;
+	while (i <= l)
+	{
+		if (file && (!args[i] || !cmp(file, args[i], fl)) && (tmp[i] = file))
+			file = 0;
+		else
+			tmp[i] = args[i - (!file)];
 		i++;
 	}
-	tmp[i++] = file;
-	tmp[i] = 0;
+	free(args);
 	return (tmp);
 }
 

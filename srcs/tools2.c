@@ -6,7 +6,7 @@
 /*   By: craffate <craffate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/04 01:11:19 by craffate          #+#    #+#             */
-/*   Updated: 2017/02/08 17:37:17 by craffate         ###   ########.fr       */
+/*   Updated: 2017/02/12 17:54:48 by craffate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,14 @@ void			getsizes(size_t *schars, t_file **files, t_file **dirs,
 	hfiles ? maxsizechars(hfiles, schars) : 0;
 }
 
-void			gettotals(size_t *schars, int i, t_file **files,
-				t_file **hfiles)
+size_t			gettotals(int i, t_file **files,
+				t_file **hfiles, t_file **dirs)
 {
-	schars[4] = files ? total(files) : schars[4];
-	schars[4] += i & LS_A && hfiles ? total(hfiles) : 0;
+	size_t	t;
+
+	t = 0;
+	t = files ? total(files) : t;
+	t += dirs ? total(dirs) : 0;
+	t += i & LS_A && hfiles ? total(hfiles) : 0;
+	return (t);
 }
