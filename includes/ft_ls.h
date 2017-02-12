@@ -6,7 +6,7 @@
 /*   By: craffate <craffate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/24 12:56:26 by craffate          #+#    #+#             */
-/*   Updated: 2017/02/12 17:55:30 by craffate         ###   ########.fr       */
+/*   Updated: 2017/02/12 18:29:59 by craffate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,12 +56,11 @@ void				maxsizechars(t_file **args, size_t *schars);
 size_t				*arrnew(size_t s);
 long long int		total(t_file **dir);
 int					execcheck(t_file *file);
-size_t				gettotals(int i, t_file **files, t_file **hfiles,
-					t_file **dirs);
-void				getsizes(size_t *schars, t_file **files, t_file **dirs,
-					t_file **hfiles);
+size_t				gettotals(t_file **files, t_file **dirs);
+void				getsizes(size_t *schars, t_file **files, t_file **dirs);
 char				*getdate_ls(time_t t);
 char				rights_type(t_file *file);
 int					cmp(t_file *file, t_file *args, int fl);
+int					pathcheck(char *s, int i);
 
 #endif

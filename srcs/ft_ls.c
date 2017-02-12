@@ -6,20 +6,17 @@
 /*   By: craffate <craffate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/24 15:09:27 by craffate          #+#    #+#             */
-/*   Updated: 2017/02/12 17:57:39 by craffate         ###   ########.fr       */
+/*   Updated: 2017/02/12 19:22:13 by craffate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-static void		displayfiles(int i, size_t *schars, t_file **files,
-				t_file **hfiles)
+static void		displayfiles(int i, size_t *schars, t_file **files)
 {
 	i & LS_L ? ft_printf("Total: %lld\n", schars[4]) : 0;
-	i & LS_A && hfiles ? display(hfiles, i, schars) : 0;
 	files ? display(files, i, schars) : 0;
 	files ? freetab(files) : 0;
-	hfiles ? freetab(hfiles) : 0;
 }
 
 static t_file	**parse(DIR *d, char *path, int i, size_t *schars)
@@ -27,26 +24,26 @@ static t_file	**parse(DIR *d, char *path, int i, size_t *schars)
 	struct dirent	*s_dir;
 	t_file			**files;
 	t_file			**dirs;
-	t_file			**hfiles;
 	t_file			*file;
 
 	files = 0;
-	hfiles = 0;
 	dirs = 0;
 	while ((s_dir = readdir(d)))
 	{
 		file = create_struct(s_dir->d_name, path);
-		if (*s_dir->d_name == '.')
-			hfiles = insert(hfiles, file, i);
-		else if ((s_dir->d_type == DT_DIR && *s_dir->d_name != '.') ||
-				s_dir->d_type == DT_LNK)
+		if (pathcheck(s_dir->d_name, i) && i & LS_A)
+			files = insert(files, create_struct(s_dir->d_name, path), i);
+		else if ((s_dir->d_type == DT_DIR) && !pathcheck(s_dir->d_name, i))
+		{
 			dirs = insert(dirs, file, i);
-		else if (s_dir->d_type != DT_DIR && *s_dir->d_name != '.')
+			files = insert(files, create_struct(s_dir->d_name, path), i);
+		}
+		else if (s_dir->d_type != DT_DIR && (*s_dir->d_name != '.' || i & LS_A))
 			files = insert(files, file, i);
 	}
-	i & LS_L ? getsizes(schars, files, dirs, hfiles) : 0;
-	schars[4] = gettotals(i, files, hfiles, dirs);
-	displayfiles(i, schars, files, hfiles);
+	i & LS_L ? getsizes(schars, files, dirs) : 0;
+	schars[4] = gettotals(files, dirs);
+	displayfiles(i, schars, files);
 	closedir(d);
 	return (dirs);
 }
@@ -70,14 +67,8 @@ int				ft_ls(t_file *dir, int i)
 	{
 		display(dirs, i, schars);
 		while (dirs[j])
-		{
-			while (dirs[j] && S_ISLNK((dirs[j])->stat.st_mode))
-				j++;
 			ft_ls(dirs[j++], i);
-		}
 	}
-	else if (d && dirs && !(i & LS_CR))
-		display(dirs, i, schars);
 	free(path);
 	dirs ? freetab(dirs) : 0;
 	schars ? free(schars) : 0;

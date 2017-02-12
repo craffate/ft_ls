@@ -6,7 +6,7 @@
 /*   By: craffate <craffate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/02 16:38:48 by craffate          #+#    #+#             */
-/*   Updated: 2017/02/12 17:51:29 by craffate         ###   ########.fr       */
+/*   Updated: 2017/02/12 19:02:53 by craffate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,8 @@ t_file		**insert(t_file **args, t_file *file, int fl)
 	unsigned int	i;
 	unsigned int	l;
 
-	if (!args)
-	{
-		args = malloc(sizeof(t_file **));
+	if (!args && (args = malloc(sizeof(t_file **))))
 		*args = 0;
-	}
 	l = 0;
 	while (args[l])
 		l++;

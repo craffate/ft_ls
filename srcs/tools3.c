@@ -6,7 +6,7 @@
 /*   By: craffate <craffate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/07 12:31:04 by craffate          #+#    #+#             */
-/*   Updated: 2017/02/12 16:47:01 by craffate         ###   ########.fr       */
+/*   Updated: 2017/02/12 18:41:06 by craffate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,4 +67,13 @@ int		cmp(t_file *file, t_file *args, int fl)
 	if (fl & LS_R)
 		return (ft_strcmp(file->name, args->name) < 1) ? 1 : 0;
 	return (ft_strcmp(file->name, args->name) > 0) ? 1 : 0;
+}
+
+int		pathcheck(char *s, int i)
+{
+	if (*s == '.' && (!(i & LS_A) || (!*(s + 1) ||
+		(*(s + 1) == '.' && !*(s + 2)))))
+		return (1);
+	else
+		return (0);
 }

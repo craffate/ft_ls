@@ -6,7 +6,7 @@
 /*   By: craffate <craffate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/04 01:11:19 by craffate          #+#    #+#             */
-/*   Updated: 2017/02/12 17:54:48 by craffate         ###   ########.fr       */
+/*   Updated: 2017/02/12 18:29:50 by craffate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,22 +44,18 @@ int				execcheck(t_file *file)
 			(*file).stat.st_mode & S_IXOTH ? 1 : 0);
 }
 
-void			getsizes(size_t *schars, t_file **files, t_file **dirs,
-				t_file **hfiles)
+void			getsizes(size_t *schars, t_file **files, t_file **dirs)
 {
 	files ? maxsizechars(files, schars) : 0;
 	dirs ? maxsizechars(dirs, schars) : 0;
-	hfiles ? maxsizechars(hfiles, schars) : 0;
 }
 
-size_t			gettotals(int i, t_file **files,
-				t_file **hfiles, t_file **dirs)
+size_t			gettotals(t_file **files, t_file **dirs)
 {
 	size_t	t;
 
 	t = 0;
 	t = files ? total(files) : t;
 	t += dirs ? total(dirs) : 0;
-	t += i & LS_A && hfiles ? total(hfiles) : 0;
 	return (t);
 }
