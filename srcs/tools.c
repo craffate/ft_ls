@@ -6,7 +6,7 @@
 /*   By: craffate <craffate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/02 16:38:48 by craffate          #+#    #+#             */
-/*   Updated: 2017/02/12 19:02:53 by craffate         ###   ########.fr       */
+/*   Updated: 2017/02/13 13:17:29 by craffate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void		maxsizechars(t_file **args, size_t *schars)
 	i = 0;
 	j = 0;
 	k = 1;
-	while (*args)
+	while (*args && (*args)->stat.st_uid && (*args)->stat.st_gid)
 	{
 		schars[0] = ft_strlen(getpwuid((*args)->stat.st_uid)->pw_name) >
 		*schars ? ft_strlen(getpwuid((*args)->stat.st_uid)->pw_name) : *schars;
@@ -77,7 +77,11 @@ t_file		*create_struct(char *name, char *path)
 		exit(EXIT_FAILURE);
 	arg->name = ft_strdup(name);
 	arg->path = ft_strdup(path);
-	lstat((tmp = join_path(path, name)), &arg->stat);
+	if (lstat((tmp = join_path(path, name)), &arg->stat))
+	{
+		free(arg);
+		return (0);
+	}
 	free(tmp);
 	return (arg);
 }

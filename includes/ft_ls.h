@@ -6,7 +6,7 @@
 /*   By: craffate <craffate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/24 12:56:26 by craffate          #+#    #+#             */
-/*   Updated: 2017/02/12 18:29:59 by craffate         ###   ########.fr       */
+/*   Updated: 2017/02/13 13:19:38 by craffate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@
 # define MUL_ARGS (1 << 7)
 
 # define USAGE "\x1b[33m[ft_ls]\x1b[0m usage: ft_ls [-lRartfu] [file ...]\n"
-# define DENIED "Permission denied\n"
+# define DENIED "\x1b[33m[ft_ls]\x1b[0m Permission denied\n"
 
 typedef struct stat	t_stat;
 

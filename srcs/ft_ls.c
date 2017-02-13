@@ -6,7 +6,7 @@
 /*   By: craffate <craffate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/24 15:09:27 by craffate          #+#    #+#             */
-/*   Updated: 2017/02/12 19:22:13 by craffate         ###   ########.fr       */
+/*   Updated: 2017/02/13 13:18:56 by craffate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,16 +30,19 @@ static t_file	**parse(DIR *d, char *path, int i, size_t *schars)
 	dirs = 0;
 	while ((s_dir = readdir(d)))
 	{
-		file = create_struct(s_dir->d_name, path);
 		if (pathcheck(s_dir->d_name, i) && i & LS_A)
-			files = insert(files, create_struct(s_dir->d_name, path), i);
-		else if ((s_dir->d_type == DT_DIR) && !pathcheck(s_dir->d_name, i))
+			(file = create_struct(s_dir->d_name, path)) ?
+			files = insert(files, file, i) : 0;
+		else if (s_dir->d_type == DT_DIR && !pathcheck(s_dir->d_name, i))
 		{
-			dirs = insert(dirs, file, i);
-			files = insert(files, create_struct(s_dir->d_name, path), i);
+			(file = create_struct(s_dir->d_name, path)) ?
+			dirs = insert(dirs, file, i) : 0;
+			(file = create_struct(s_dir->d_name, path)) ?
+			files = insert(files, file, i) : 0;
 		}
 		else if (s_dir->d_type != DT_DIR && (*s_dir->d_name != '.' || i & LS_A))
-			files = insert(files, file, i);
+			(file = create_struct(s_dir->d_name, path)) ?
+			files = insert(files, file, i) : 0;
 	}
 	i & LS_L ? getsizes(schars, files, dirs) : 0;
 	schars[4] = gettotals(files, dirs);
