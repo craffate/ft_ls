@@ -6,7 +6,7 @@
 /*   By: craffate <craffate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/24 15:09:27 by craffate          #+#    #+#             */
-/*   Updated: 2017/02/13 13:18:56 by craffate         ###   ########.fr       */
+/*   Updated: 2017/02/13 14:45:32 by craffate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,34 +21,29 @@ static void		displayfiles(int i, size_t *schars, t_file **files)
 
 static t_file	**parse(DIR *d, char *path, int i, size_t *schars)
 {
-	struct dirent	*s_dir;
-	t_file			**files;
-	t_file			**dirs;
-	t_file			*file;
+	struct dirent	*s;
+	t_file			**fs;
+	t_file			**ds;
+	t_file			*f;
 
-	files = 0;
-	dirs = 0;
-	while ((s_dir = readdir(d)))
-	{
-		if (pathcheck(s_dir->d_name, i) && i & LS_A)
-			(file = create_struct(s_dir->d_name, path)) ?
-			files = insert(files, file, i) : 0;
-		else if (s_dir->d_type == DT_DIR && !pathcheck(s_dir->d_name, i))
+	fs = 0;
+	ds = 0;
+	while ((s = readdir(d)))
+		if ((s->d_type == DT_DIR) && !pathcheck(s->d_name, i))
 		{
-			(file = create_struct(s_dir->d_name, path)) ?
-			dirs = insert(dirs, file, i) : 0;
-			(file = create_struct(s_dir->d_name, path)) ?
-			files = insert(files, file, i) : 0;
+			(f = create_struct(s->d_name, path)) ?
+			ds = insert(ds, f, i) : 0;
+			(f = create_struct(s->d_name, path)) ?
+			fs = insert(fs, f, i) : 0;
 		}
-		else if (s_dir->d_type != DT_DIR && (*s_dir->d_name != '.' || i & LS_A))
-			(file = create_struct(s_dir->d_name, path)) ?
-			files = insert(files, file, i) : 0;
-	}
-	i & LS_L ? getsizes(schars, files, dirs) : 0;
-	schars[4] = gettotals(files, dirs);
-	displayfiles(i, schars, files);
+		else if (*s->d_name != '.' || i & LS_A)
+			(f = create_struct(s->d_name, path)) ?
+			fs = insert(fs, f, i) : 0;
+	i & LS_L ? getsizes(schars, fs, ds) : 0;
+	schars[4] = gettotals(fs, ds);
+	displayfiles(i, schars, fs);
 	closedir(d);
-	return (dirs);
+	return (ds);
 }
 
 int				ft_ls(t_file *dir, int i)
