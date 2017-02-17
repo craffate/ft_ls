@@ -6,7 +6,7 @@
 /*   By: craffate <craffate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/24 15:09:27 by craffate          #+#    #+#             */
-/*   Updated: 2017/02/13 14:45:32 by craffate         ###   ########.fr       */
+/*   Updated: 2017/02/17 13:37:40 by craffate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,13 @@ static t_file	**parse(DIR *d, char *path, int i, size_t *schars)
 	while ((s = readdir(d)))
 		if ((s->d_type == DT_DIR) && !pathcheck(s->d_name, i))
 		{
-			(f = create_struct(s->d_name, path)) ?
+			(f = create_struct(s->d_name, path)) && f ?
 			ds = insert(ds, f, i) : 0;
-			(f = create_struct(s->d_name, path)) ?
+			(f = create_struct(s->d_name, path)) && f ?
 			fs = insert(fs, f, i) : 0;
 		}
 		else if (*s->d_name != '.' || i & LS_A)
-			(f = create_struct(s->d_name, path)) ?
+			(f = create_struct(s->d_name, path)) && f ?
 			fs = insert(fs, f, i) : 0;
 	i & LS_L ? getsizes(schars, fs, ds) : 0;
 	schars[4] = gettotals(fs, ds);
