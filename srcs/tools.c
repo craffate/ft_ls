@@ -6,7 +6,7 @@
 /*   By: craffate <craffate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/02 16:38:48 by craffate          #+#    #+#             */
-/*   Updated: 2017/02/13 14:41:16 by craffate         ###   ########.fr       */
+/*   Updated: 2017/02/17 13:30:37 by craffate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void		maxsizechars(t_file **args, size_t *schars)
 	i = 0;
 	j = 0;
 	k = 1;
-	while (*args && (*args)->stat.st_uid && (*args)->stat.st_gid)
+	while (*args)
 	{
 		schars[0] = ft_strlen(getpwuid((*args)->stat.st_uid)->pw_name) >
 		*schars ? ft_strlen(getpwuid((*args)->stat.st_uid)->pw_name) : *schars;
