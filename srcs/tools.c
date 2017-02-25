@@ -6,7 +6,7 @@
 /*   By: craffate <craffate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/02 16:38:48 by craffate          #+#    #+#             */
-/*   Updated: 2017/02/17 13:34:45 by craffate         ###   ########.fr       */
+/*   Updated: 2017/02/26 00:10:25 by craffate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ t_file		*create_struct(char *name, char *path)
 	char	*tmp;
 
 	if (!(arg = malloc(sizeof(t_file))))
-		exit(EXIT_FAILURE);
+		exit(-1);
 	arg->name = ft_strdup(name);
 	arg->path = ft_strdup(path);
 	if (lstat((tmp = join_path(path, name)), &arg->stat))
@@ -108,7 +108,7 @@ char		*join_path(char *s1, char *s2)
 	i = 0;
 	if (!(s3 = malloc(sizeof(char) *
 		(ft_strlen(s1) + ft_strlen(s2) + 2))))
-		exit(EXIT_FAILURE);
+		exit(-1);
 	while (*s1)
 		s3[i++] = *s1++;
 	if (i && s3[i - 1] != '/')

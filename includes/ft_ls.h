@@ -6,7 +6,7 @@
 /*   By: craffate <craffate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/24 12:56:26 by craffate          #+#    #+#             */
-/*   Updated: 2017/02/13 13:19:38 by craffate         ###   ########.fr       */
+/*   Updated: 2017/02/25 23:57:15 by craffate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@
 # define LS_U (1 << 6)
 # define MUL_ARGS (1 << 7)
 
-# define USAGE "\x1b[33m[ft_ls]\x1b[0m usage: ft_ls [-lRartfu] [file ...]\n"
-# define DENIED "\x1b[33m[ft_ls]\x1b[0m Permission denied\n"
+# define USAGE "\x1b[33m[ft_ls]\x1b[0m: usage: ft_ls [-lRartfu] [file ...]\n"
+# define DENIED "\x1b[33m[ft_ls]\x1b[0m: Permission denied\n"
 
 typedef struct stat	t_stat;
 
@@ -62,5 +62,6 @@ char				*getdate_ls(time_t t);
 char				rights_type(t_file *file);
 int					cmp(t_file *file, t_file *args, int fl);
 int					pathcheck(char *s, int i);
+void				error_handler(int i);
 
 #endif

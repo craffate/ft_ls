@@ -6,7 +6,7 @@
 /*   By: craffate <craffate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/04 01:11:19 by craffate          #+#    #+#             */
-/*   Updated: 2017/02/13 13:04:29 by craffate         ###   ########.fr       */
+/*   Updated: 2017/02/26 00:06:03 by craffate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ size_t			*arrnew(size_t s)
 	unsigned int	i;
 
 	if (!(arr = malloc(sizeof(size_t) * s)))
-		return (0);
+		exit(-1);
 	i = 0;
 	while (i != s)
 		arr[i++] = 0;
