@@ -6,7 +6,7 @@
 /*   By: craffate <craffate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/24 15:09:27 by craffate          #+#    #+#             */
-/*   Updated: 2017/02/26 02:29:28 by craffate         ###   ########.fr       */
+/*   Updated: 2017/02/26 02:45:28 by craffate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,11 +63,8 @@ int				ft_ls(t_file *dir, int i)
 	ft_printf("\n{green}%s:{eoc}\n", (path)) : 0;
 	!d ? error_handler(0, dir->name) : 0;
 	if (d && (dirs = parse(d, path, i, schars)) && i & LS_CR && dirs)
-	{
-		display(dirs, i, schars);
 		while (dirs[j])
 			ft_ls(dirs[j++], i);
-	}
 	free(path);
 	dirs ? freetab(dirs) : 0;
 	schars ? free(schars) : 0;

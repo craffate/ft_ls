@@ -6,7 +6,7 @@
 /*   By: craffate <craffate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/24 13:02:53 by craffate          #+#    #+#             */
-/*   Updated: 2017/02/26 02:29:18 by craffate         ###   ########.fr       */
+/*   Updated: 2017/02/26 02:44:19 by craffate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,8 @@ static void	pre_parsing(char **s, unsigned int i)
 	while (*s)
 		if (!(f = create_struct(*s++, "")))
 			error_handler(0, *(s - 1));
-		else if (S_ISDIR(f->stat.st_mode) && !pathcheck(*(s - 1), i))
+		else if ((S_ISDIR(f->stat.st_mode) || S_ISLNK(f->stat.st_mode)) &&
+				!pathcheck(*(s - 1), i))
 			ds = insert(ds, f, i);
 		else
 			fs = insert(fs, f, i);
@@ -73,6 +74,7 @@ static void	pre_parsing(char **s, unsigned int i)
 	schars[4] = gettotals(fs, ds);
 	displayfiles(i, schars, fs, 0);
 	free(schars);
+	fs = ds;
 	while (ds && *ds)
 		ft_ls(*ds++, i);
 	fs ? freetab(fs) : 0;
