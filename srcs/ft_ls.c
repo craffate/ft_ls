@@ -6,15 +6,15 @@
 /*   By: craffate <craffate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/24 15:09:27 by craffate          #+#    #+#             */
-/*   Updated: 2017/02/26 01:28:35 by craffate         ###   ########.fr       */
+/*   Updated: 2017/02/26 02:29:28 by craffate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-static void		displayfiles(int i, size_t *schars, t_file **files)
+void			displayfiles(int i, size_t *schars, t_file **files, int status)
 {
-	i & LS_L ? ft_printf("Total: %lld\n", schars[4]) : 0;
+	i & LS_L && status == 1 ? ft_printf("Total: %lld\n", schars[4]) : 0;
 	files ? display(files, i, schars) : 0;
 	files ? freetab(files) : 0;
 }
@@ -41,7 +41,7 @@ static t_file	**parse(DIR *d, char *path, int i, size_t *schars)
 			fs = insert(fs, f, i) : 0;
 	i & LS_L ? getsizes(schars, fs, ds) : 0;
 	schars[4] = gettotals(fs, ds);
-	displayfiles(i, schars, fs);
+	displayfiles(i, schars, fs, 1);
 	closedir(d);
 	return (ds);
 }
@@ -61,7 +61,7 @@ int				ft_ls(t_file *dir, int i)
 	dirs = NULL;
 	dir && (i & LS_CR || i & MUL_ARGS) ?
 	ft_printf("\n{green}%s:{eoc}\n", (path)) : 0;
-	!d ? error_handler(0) : 0;
+	!d ? error_handler(0, dir->name) : 0;
 	if (d && (dirs = parse(d, path, i, schars)) && i & LS_CR && dirs)
 	{
 		display(dirs, i, schars);

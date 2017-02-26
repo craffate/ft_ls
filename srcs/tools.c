@@ -6,7 +6,7 @@
 /*   By: craffate <craffate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/02 16:38:48 by craffate          #+#    #+#             */
-/*   Updated: 2017/02/26 01:29:20 by craffate         ###   ########.fr       */
+/*   Updated: 2017/02/26 02:17:26 by craffate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ t_file		*create_struct(char *name, char *path)
 		free(arg->name);
 		free(arg->path);
 		free(arg);
+		free(tmp);
 		return (NULL);
 	}
 	free(tmp);

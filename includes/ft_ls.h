@@ -6,7 +6,7 @@
 /*   By: craffate <craffate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/24 12:56:26 by craffate          #+#    #+#             */
-/*   Updated: 2017/02/25 23:57:15 by craffate         ###   ########.fr       */
+/*   Updated: 2017/02/26 02:13:04 by craffate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ char				*getdate_ls(time_t t);
 char				rights_type(t_file *file);
 int					cmp(t_file *file, t_file *args, int fl);
 int					pathcheck(char *s, int i);
-void				error_handler(int i);
+void				error_handler(int i, char *s);
+void				displayfiles(int i, size_t *schars, t_file **files,
+					int status);
 
 #endif
