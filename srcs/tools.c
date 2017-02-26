@@ -6,7 +6,7 @@
 /*   By: craffate <craffate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/02 16:38:48 by craffate          #+#    #+#             */
-/*   Updated: 2017/02/26 00:10:25 by craffate         ###   ########.fr       */
+/*   Updated: 2017/02/26 01:29:20 by craffate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ t_file		**insert(t_file **args, t_file *file, int fl)
 	while (args[l])
 		l++;
 	if (!(tmp = malloc(sizeof(t_file *) * (l + 2))))
-		exit(EXIT_FAILURE);
+		exit(-1);
 	tmp[l + 1] = 0;
 	i = 0;
 	while (i <= l)
@@ -79,6 +79,8 @@ t_file		*create_struct(char *name, char *path)
 	arg->path = ft_strdup(path);
 	if (lstat((tmp = join_path(path, name)), &arg->stat))
 	{
+		free(arg->name);
+		free(arg->path);
 		free(arg);
 		return (NULL);
 	}
