@@ -6,7 +6,7 @@
 /*   By: craffate <craffate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/24 13:02:53 by craffate          #+#    #+#             */
-/*   Updated: 2017/03/02 08:20:50 by craffate         ###   ########.fr       */
+/*   Updated: 2017/03/02 11:29:11 by craffate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void		error_handler(int i, char *s)
 	name = s ? ft_strjoin("\x1b[33m[ft_ls]\x1b[0m: ", s) : 0;
 	if (i == 1)
 	{
-		write(2, USAGE, 58);
+		write(2, USAGE, 54);
 		exit(-1);
 	}
 	else
