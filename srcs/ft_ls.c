@@ -6,7 +6,7 @@
 /*   By: craffate <craffate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/24 15:09:27 by craffate          #+#    #+#             */
-/*   Updated: 2017/02/26 02:45:28 by craffate         ###   ########.fr       */
+/*   Updated: 2017/03/02 08:29:41 by craffate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 void			displayfiles(int i, size_t *schars, t_file **files, int status)
 {
-	i & LS_L && status == 1 ? ft_printf("Total: %lld\n", schars[4]) : 0;
+	files && i & LS_L && status == 1 ?
+	ft_printf("Total: %lld\n", schars[4]) : 0;
 	files ? display(files, i, schars) : 0;
 	files ? freetab(files) : 0;
 }

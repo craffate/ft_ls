@@ -6,7 +6,7 @@
 /*   By: craffate <craffate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/24 13:02:53 by craffate          #+#    #+#             */
-/*   Updated: 2017/02/26 07:28:42 by craffate         ###   ########.fr       */
+/*   Updated: 2017/03/02 08:20:50 by craffate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,8 @@ static void	pre_parsing(char **s, unsigned int i)
 	while (*s)
 		if (!(f = create_struct(*s++, "")))
 			error_handler(0, *(s - 1));
-		else if ((S_ISDIR(f->stat.st_mode) || S_ISLNK(f->stat.st_mode)))
+		else if ((S_ISDIR(f->stat.st_mode) || (!(i & LS_L) &&
+				S_ISLNK(f->stat.st_mode))))
 			ds = insert(ds, f, i);
 		else
 			fs = insert(fs, f, i);
